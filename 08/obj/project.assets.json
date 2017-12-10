@@ -670,11 +670,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tatianar.REDMOND\\Documents\\Advent2017\\Day8\\Day8.csproj",
+      "projectUniqueName": "c:\\Users\\tatianar.REDMOND\\Documents\\Advent2017\\08\\Day8.csproj",
       "projectName": "Day8",
-      "projectPath": "C:\\Users\\tatianar.REDMOND\\Documents\\Advent2017\\Day8\\Day8.csproj",
+      "projectPath": "c:\\Users\\tatianar.REDMOND\\Documents\\Advent2017\\08\\Day8.csproj",
       "packagesPath": "C:\\Users\\tatianar.REDMOND\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tatianar.REDMOND\\Documents\\Advent2017\\Day8\\obj\\",
+      "outputPath": "c:\\Users\\tatianar.REDMOND\\Documents\\Advent2017\\08\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
