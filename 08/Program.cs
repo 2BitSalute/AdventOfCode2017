@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace Day8
+﻿namespace Day8
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     class Program
     {
         static void Main(string[] args)
