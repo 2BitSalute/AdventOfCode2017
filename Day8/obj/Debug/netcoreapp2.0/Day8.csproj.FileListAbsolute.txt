@@ -1,0 +1,10 @@
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\bin\Debug\netcoreapp2.0\Day8.deps.json
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\bin\Debug\netcoreapp2.0\Day8.runtimeconfig.json
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\bin\Debug\netcoreapp2.0\Day8.runtimeconfig.dev.json
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\bin\Debug\netcoreapp2.0\Day8.dll
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\bin\Debug\netcoreapp2.0\Day8.pdb
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\obj\Debug\netcoreapp2.0\Day8.csproj.CoreCompileInputs.cache
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\obj\Debug\netcoreapp2.0\Day8.AssemblyInfoInputs.cache
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\obj\Debug\netcoreapp2.0\Day8.AssemblyInfo.cs
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\obj\Debug\netcoreapp2.0\Day8.dll
+C:\Users\tatianar.REDMOND\Documents\Advent2017\Day8\obj\Debug\netcoreapp2.0\Day8.pdb
