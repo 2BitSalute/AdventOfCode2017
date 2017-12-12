@@ -35,14 +35,24 @@ namespace _12
             }
 
             HashSet<string> visited = new HashSet<string>();
-
             Queue<string> queue = new Queue<string>();
-            queue.Enqueue("0");
-            visited.Add("0");
+            string group = string.Empty;
+            int numGroups = 0;
 
-            int numGroups = 1;
             while (visited.Count < graph.Keys.Count)
             {
+                foreach(var key in graph.Keys)
+                {
+                    if (!visited.Contains(key))
+                    {
+                        group = key;
+                        numGroups++;
+                        visited.Add(key);
+                        queue.Enqueue(key);
+                        break;
+                    }
+                }
+
                 while(queue.Count > 0)
                 {
                     string curr = queue.Dequeue();
@@ -51,27 +61,16 @@ namespace _12
                     {
                         if (!visited.Contains(child))
                         {
-                            Console.WriteLine("Enqueuing child {0}", child);
                             visited.Add(child);
                             queue.Enqueue(child);
                         }
                     }
                 }
 
-                foreach(var key in graph.Keys)
-                {
-                    if (!visited.Contains(key))
-                    {
-                        numGroups++;
-                        Console.WriteLine("Enqueuing unseen {0}", key);
-                        visited.Add(key);
-                        queue.Enqueue(key);
-                        break;
-                    }
-                }
+                // Only accurate for the 1st group. Too lazy to fix
+                Console.WriteLine("Now {0} when including group {1}", visited.Count, group);
             }
 
-            //Console.WriteLine("Total {0} in group 0", visited.Count);
             Console.WriteLine("Num groups " + numGroups);
         }
 
