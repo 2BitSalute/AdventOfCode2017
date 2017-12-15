@@ -7,6 +7,76 @@ namespace _15
     {
         static void Main(string[] args)
         {
+            var start = DateTime.Now;
+
+            ViaEnumerator();
+
+            Console.WriteLine("The enumerator solution took {0}", DateTime.Now - start);
+
+            start = DateTime.Now;
+
+            OrigMain();
+
+            Console.WriteLine("The queue solution took {0}", DateTime.Now - start);
+        }
+
+        public static void ViaEnumerator()
+        {
+            int numPairs = 5000000;
+            int count = 0;
+
+            var genA = new Generator(start: 116, factor: 16807, modulo: 4).Values();
+            var genB = new Generator(start: 299, factor: 48271, modulo: 8).Values();
+
+            for (int i = 0; i < numPairs; i++)
+            {
+                genA.MoveNext();
+                genB.MoveNext();
+
+                long genAVal = genA.Current;
+                long genBVal = genB.Current;
+
+                if ((genAVal & 0xFFFF) == (genBVal & 0xFFFF))
+                {
+                    count++;
+                }
+            }
+
+            Console.WriteLine("Total count is {0}", count);
+        }
+
+        public class Generator
+        {
+            private const int Divisor = 2147483647;
+
+            private readonly long factor;
+            private readonly long modulo;
+
+            private long curr;
+
+            public Generator(long start, long factor, int modulo)
+            {
+                this.curr = start;
+                this.factor = factor;
+                this.modulo = modulo;
+            }
+
+            public IEnumerator<long> Values()
+            {
+                while(true)
+                {
+                    this.curr = this.curr * this.factor % Divisor;
+
+                    if (this.curr % this.modulo == 0)
+                    {
+                        yield return this.curr;
+                    }
+                }
+            }
+        }
+
+        public static void OrigMain()
+        {
             // Generator A starts with 116
             // Generator B starts with 299
 
@@ -19,19 +89,18 @@ namespace _15
 
             // Divide by 2147483647
 
-            int divisor = 2147483647;
-
-            //int numPairs = 40000000;
-            int numPairs = 5000000;
-
-            int genAFactor = 16807;
-            int genBFactor = 48271;
-
+            // int numPairs = 40000000;
             // long genA = 65;
             // long genB = 8921;
 
-            long genA = 116; // 65;
-            long genB = 299; //8921;
+            int numPairs = 5000000;
+            int genAFactor = 16807;
+            int genBFactor = 48271;
+
+            long genA = 116;
+            long genB = 299;
+
+            int divisor = 2147483647;
 
             int count = 0;
 
