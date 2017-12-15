@@ -25,8 +25,8 @@ namespace _15
             int numPairs = 5000000;
             int count = 0;
 
-            var genA = new Generator(start: 116, factor: 16807, modulo: 4).Values();
-            var genB = new Generator(start: 299, factor: 48271, modulo: 8).Values();
+            var genA = Values(curr: 116, factor: 16807, modulo: 4);
+            var genB = Values(curr: 299, factor: 48271, modulo: 8);
 
             for (int i = 0; i < numPairs; i++)
             {
@@ -43,6 +43,21 @@ namespace _15
             }
 
             Console.WriteLine("Total count is {0}", count);
+        }
+
+        public static IEnumerator<long> Values(long curr, long factor, int modulo)
+        {
+            const int Divisor = 2147483647;
+
+            while(true)
+            {
+                curr = curr * factor % Divisor;
+
+                if (curr % modulo == 0)
+                {
+                    yield return curr;
+                }
+            }
         }
 
         public class Generator
