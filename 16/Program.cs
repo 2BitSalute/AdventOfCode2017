@@ -8,6 +8,60 @@ namespace _16
     {
         static void Main(string[] args)
         {
+            int input = 314;
+            Console.WriteLine(Part2(input, 2017));
+            Console.WriteLine(Part2(input, 50000000));
+        }
+
+        static int Part2(int input, int times)
+        {
+            int curr = 0;
+            int after0 = -1;
+
+            for (int i = 1; i <= times; i++)
+            {
+                curr = (curr + input) % i;
+                if (curr == 0)
+                {
+                    after0 = i;
+                }
+
+                curr++;
+            }
+
+            return after0;
+        }
+
+        static int Part1(int input, int times)
+        {
+            List<int> buffer = new List<int>(times + 1) { 0 };
+
+            int curr = 0;
+
+            for (int i = 1; i <= times; i++)
+            {
+                curr = (curr + input) % buffer.Count;
+                buffer.Insert(curr + 1, i);
+                curr++;
+            }
+
+            return buffer[(curr + 1) % buffer.Count];
+        }
+
+        public static void Print(List<int> buffer, int curr)
+        {
+            for(int i = 0; i < buffer.Count; i++)
+            {
+                Console.Write(i == curr ? "({0}) " : "{0} ", buffer[i]);
+            }
+
+            Console.WriteLine();
+        }
+
+
+
+        static void Main15()
+        {
             string input = File.ReadAllText("input.txt");
             int numPrograms = 16;
 
