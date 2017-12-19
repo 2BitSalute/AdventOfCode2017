@@ -16,16 +16,11 @@ namespace _17
             p0.OtherQueue = p1.Queue;
             p1.OtherQueue = p0.Queue;
 
-            int i = 0;
-
             do
             {
                 p1.Run();
                 p0.Run();
-                
-                i++;
-            }
-            while(p1.Queue.Count != 0);
+            } while(p1.Queue.Count != 0);
 
             Console.WriteLine(p1.SendCounter);
         }
@@ -39,33 +34,16 @@ namespace _17
         const string JGZ = "jgz";
 
         private long curr = 0;
-
+        private string[] instructions;
         private Dictionary<string, long> registers = new Dictionary<string, long>();
 
-        public long SendCounter
-        {
-            get;
-            set;
-        }
+        public long SendCounter { get; set; }
 
-        private string[] instructions;
+        public Queue<long> Queue { get; }
 
-        public Queue<long> Queue
-        {
-            get;
-        }
+        public Queue<long> OtherQueue { get; set; }
 
-        public Queue<long> OtherQueue
-        {
-            get;
-            set;
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         public Program(int pValue, string[] instructions)
         {
@@ -90,8 +68,8 @@ namespace _17
 
                 if (!registers.ContainsKey(register))
                 {
-                    int literal;
-                    if(!int.TryParse(register, out literal))
+                    long literal;
+                    if(!long.TryParse(register, out literal))
                     {
                         literal = 0;
                     }
@@ -100,7 +78,6 @@ namespace _17
                 }
 
                 long value = 0;
-
                 if (tokens.Length > 2)
                 {
                     if (registers.ContainsKey(tokens[2]))
@@ -109,12 +86,11 @@ namespace _17
                     }
                     else
                     {
-                        value = int.Parse(tokens[2]);
+                        value = long.Parse(tokens[2]);
                     }
                 }
 
                 long offset = 1;
-
                 switch(instruction)
                 {
                     case SND:
