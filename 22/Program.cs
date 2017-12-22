@@ -169,7 +169,7 @@
                 else
                 {
                     dir = dir.Turn(Left);
-                    infected.Add(new Coordinate(x: curr.X, y: curr.Y));
+                    infected.Add(curr);
                     infections++;
                 }
 
