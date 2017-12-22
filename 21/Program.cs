@@ -9,6 +9,8 @@
     {
         static void Main(string[] args)
         {
+            var start = DateTime.Now;
+
             string[] rules = File.ReadAllLines("input.txt");
 
             var separators = new char[] { ' ', '=', '>' };
@@ -48,7 +50,7 @@
 
             int answer = CountOn(grid);
 
-            Console.WriteLine(answer);
+            Console.WriteLine("{0} took {1}", answer, DateTime.Now - start);
         }
 
         public static string FlipHorizontal(string grid)
