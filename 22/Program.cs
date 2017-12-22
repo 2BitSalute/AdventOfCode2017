@@ -1,43 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace _22
+﻿namespace _22
 {
-        public class Coordinate : IEquatable<Coordinate>
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
+    public class Coordinate : IEquatable<Coordinate>
+    {
+        public Coordinate(long x, long y)
         {
-            public long X {get;set;}
-            public long Y {get;set;}
-
-            public void Add(Coordinate other)
-            {
-                this.X += other.X;
-                this.Y += other.Y;
-            }
-
-            public override string ToString()
-            {
-                return string.Format("X={0}, Y={1}", this.X, this.Y);
-            }
-
-            public bool Equals(Coordinate other)
-            {
-                return this.X == other.X && this.Y == other.Y;
-            }
-
-            public override bool Equals(object obj)
-            {
-                var other = obj as Coordinate;
-                return this.X == other.X && this.Y == other.Y;
-            }
-
-            public override int GetHashCode()
-            {
-                long result = this.X;
-                result = (result * 397) ^ this.Y;
-                return (int)result;
-            }
+            this.X = x;
+            this.Y = y;
         }
+
+        public long X { get; private set; }
+        public long Y { get; private set; }
+
+        public Coordinate Add(Coordinate other)
+        {
+            return new Coordinate(this.X + other.X, this.Y + other.Y);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("X={0}, Y={1}", this.X, this.Y);
+        }
+
+        public bool Equals(Coordinate other)
+        {
+            return this.X == other.X && this.Y == other.Y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Coordinate;
+            return this.X == other.X && this.Y == other.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            long result = this.X;
+            result = (result * 397) ^ this.Y;
+            return (int)result;
+        }
+    }
 
     public static class Program
     {
@@ -51,10 +56,10 @@ namespace _22
         const int Infected = 2;
         const int Flagged = 3;
 
-        private static Coordinate MoveSouth = new Coordinate { X = 0, Y = -1 };
-        private static Coordinate MoveNorth = new Coordinate { X = 0, Y = 1 };
-        private static Coordinate MoveEast = new Coordinate { X = 1, Y = 0 };
-        private static Coordinate MoveWest = new Coordinate { X = -1, Y = 0 };
+        private static Coordinate MoveSouth = new Coordinate(x: 0, y: -1);
+        private static Coordinate MoveNorth = new Coordinate(x: 0, y: 1);
+        private static Coordinate MoveEast = new Coordinate(x: 1, y: 0);
+        private static Coordinate MoveWest = new Coordinate(x: -1, y: 0);
 
         const int Left = -1;
         const int Right = 1;
@@ -67,36 +72,6 @@ namespace _22
                 RunSolution(Part2, "Part 2 V1", fileName);
                 RunSolution(Part2V2, "Part 2 V2", fileName);
             }
-        }
-
-        public static void RunSolution(Func<HashSet<Coordinate>, Coordinate, int> solve, string name, string fileName)
-        {
-            var lines = File.ReadAllLines(fileName);
-            Coordinate center = new Coordinate { X = lines[0].Length / 2, Y = lines.Length / 2 };
-
-            var infected = GetInitialState(lines);
-
-            var start = DateTime.Now;
-            int answer = solve(infected, center);
-            Console.WriteLine("{1} took {0} to find the answer {3} on {2}", DateTime.Now - start, name, fileName, answer);
-        }
-
-        public static HashSet<Coordinate> GetInitialState(string[] lines)
-        {
-            HashSet<Coordinate> infected = new HashSet<Coordinate>();
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                for (int j = 0; j < lines[0].Length; j++)
-                {
-                    if (lines[i][j] == '#')
-                    {
-                        infected.Add(new Coordinate { X = j, Y = i});
-                    }
-                }
-            }
-
-            return infected;
         }
 
         public static int Part2V2(HashSet<Coordinate> infected, Coordinate curr)
@@ -160,18 +135,18 @@ namespace _22
                 {
                     dir = dir.Turn(Right);
                     infected.Remove(curr);
-                    flagged.Add(new Coordinate { X = curr.X, Y = curr.Y });
+                    flagged.Add(new Coordinate(x: curr.X, y: curr.Y));
                 }
                 else if (weakened.Contains(curr))
                 {
                     weakened.Remove(curr);
-                    infected.Add(new Coordinate { X = curr.X, Y = curr.Y });
+                    infected.Add(new Coordinate(x: curr.X, y: curr.Y));
                     infections++;
                 }
                 else // Clean
                 {
                     dir = dir.Turn(Left);
-                    weakened.Add(new Coordinate { X = curr.X, Y = curr.Y });
+                    weakened.Add(new Coordinate(x: curr.X, y: curr.Y));
                 }
 
                 curr = curr.Move(dir);
@@ -194,7 +169,7 @@ namespace _22
                 else
                 {
                     dir = dir.Turn(Left);
-                    infected.Add(new Coordinate { X = curr.X, Y = curr.Y });
+                    infected.Add(new Coordinate(x: curr.X, y: curr.Y));
                     infections++;
                 }
 
@@ -204,29 +179,21 @@ namespace _22
             return infections;
         }
 
-        public static Coordinate Move(this Coordinate c, int dir)
+        public static Coordinate Move(this Coordinate curr, int dir)
         {
-            Coordinate curr = new Coordinate { X = c.X, Y = c.Y };
-
             switch(dir)
             {
                 case S:
-                    curr.Add(MoveSouth);
-                    break;
+                    return curr.Add(MoveSouth);
                 case N:
-                    curr.Add(MoveNorth);
-                    break;
+                    return curr.Add(MoveNorth);
                 case E:
-                    curr.Add(MoveEast);
-                    break;
+                    return curr.Add(MoveEast);
                 case W:
-                    curr.Add(MoveWest);
-                    break;
+                    return curr.Add(MoveWest);
                 default:
                     throw new Exception("Unexpected direction value " + dir);
             }
-
-            return curr;
         }
 
         public static int Turn(this int currDir, int direction)
@@ -239,6 +206,36 @@ namespace _22
             }
 
             return newDir;
+        }
+
+        public static void RunSolution(Func<HashSet<Coordinate>, Coordinate, int> solve, string name, string fileName)
+        {
+            var lines = File.ReadAllLines(fileName);
+            Coordinate center = new Coordinate(x: lines[0].Length / 2, y: lines.Length / 2);
+
+            var infected = GetInitialState(lines);
+
+            var start = DateTime.Now;
+            int answer = solve(infected, center);
+            Console.WriteLine("{1} took {0} to find the answer {3} on {2}", DateTime.Now - start, name, fileName, answer);
+        }
+
+        public static HashSet<Coordinate> GetInitialState(string[] lines)
+        {
+            HashSet<Coordinate> infected = new HashSet<Coordinate>();
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                for (int j = 0; j < lines[0].Length; j++)
+                {
+                    if (lines[i][j] == '#')
+                    {
+                        infected.Add(new Coordinate(x: j, y: i));
+                    }
+                }
+            }
+
+            return infected;
         }
     }
 }
