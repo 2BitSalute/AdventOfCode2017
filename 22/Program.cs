@@ -15,11 +15,6 @@
         public long X { get; private set; }
         public long Y { get; private set; }
 
-        public Coordinate Add(Coordinate other)
-        {
-            return new Coordinate(this.X + other.X, this.Y + other.Y);
-        }
-
         public override string ToString()
         {
             return string.Format("X={0}, Y={1}", this.X, this.Y);
@@ -46,30 +41,25 @@
 
     public static class Program
     {
-        const int S = 0;
-        const int E = 1;
-        const int N = 2;
-        const int W = 3;
+        const int UP = 0;
+        const int RIGHT = 1;
+        const int DOWN = 2;
+        const int LEFT = 3;
 
         const int Clean = 0;
         const int Weakened = 1;
         const int Infected = 2;
         const int Flagged = 3;
 
-        private static Coordinate MoveSouth = new Coordinate(x: 0, y: -1);
-        private static Coordinate MoveNorth = new Coordinate(x: 0, y: 1);
-        private static Coordinate MoveEast = new Coordinate(x: 1, y: 0);
-        private static Coordinate MoveWest = new Coordinate(x: -1, y: 0);
-
-        const int Left = -1;
-        const int Right = 1;
+        const int TURNLEFT = -1;
+        const int TURNRIGHT = 1;
 
         static void Main(string[] args)
         {
             foreach(var fileName in new [] { "input.txt", "smallInput.txt" })
             {
                 RunSolution(Part1, "Part 1", fileName);
-                RunSolution(Part2, "Part 2 V1", fileName);
+                RunSolution(Part2V1, "Part 2 V1", fileName);
                 RunSolution(Part2V2, "Part 2 V2", fileName);
             }
         }
@@ -82,7 +72,7 @@
                 states.Add(i, Infected);
             }
 
-            int dir = S;
+            int dir = UP;
             int infections = 0;
             for (int i = 0; i < 10000000; i++)
             {
@@ -95,14 +85,14 @@
                 switch(state)
                 {
                     case Clean:
-                        dir = dir.Turn(Left);
+                        dir = dir.Turn(TURNLEFT);
                         break;
                     case Flagged:
-                        dir = dir.Turn(Right);
-                        dir = dir.Turn(Right);
+                        dir = dir.Turn(TURNRIGHT);
+                        dir = dir.Turn(TURNRIGHT);
                         break;
                     case Infected:
-                        dir = dir.Turn(Right);
+                        dir = dir.Turn(TURNRIGHT);
                         break;
                     case Weakened:
                         infections++;
@@ -116,24 +106,24 @@
             return infections;
         }
 
-        public static int Part2(HashSet<Coordinate> infected, Coordinate curr)
+        public static int Part2V1(HashSet<Coordinate> infected, Coordinate curr)
         {
             HashSet<Coordinate> weakened = new HashSet<Coordinate>();
             HashSet<Coordinate> flagged = new HashSet<Coordinate>();
 
-            int dir = S;
+            int dir = UP;
             int infections = 0;
             for (int i = 0; i < 10000000; i++)
             {
                 if (flagged.Contains(curr))
                 {
                     flagged.Remove(curr);
-                    dir = dir.Turn(Right);
-                    dir = dir.Turn(Right);
+                    dir = dir.Turn(TURNRIGHT);
+                    dir = dir.Turn(TURNRIGHT);
                 }
                 else if (infected.Contains(curr))
                 {
-                    dir = dir.Turn(Right);
+                    dir = dir.Turn(TURNRIGHT);
                     infected.Remove(curr);
                     flagged.Add(curr);
                 }
@@ -145,7 +135,7 @@
                 }
                 else // Clean
                 {
-                    dir = dir.Turn(Left);
+                    dir = dir.Turn(TURNLEFT);
                     weakened.Add(curr);
                 }
 
@@ -157,18 +147,18 @@
 
         public static int Part1(HashSet<Coordinate> infected, Coordinate curr)
         {
-            int dir = S;
+            int dir = UP;
             int infections = 0;
             for (int i = 0; i < 10000; i++)
             {
                 if (infected.Contains(curr))
                 {
-                    dir = dir.Turn(Right);
+                    dir = dir.Turn(TURNRIGHT);
                     infected.Remove(curr);
                 }
                 else
                 {
-                    dir = dir.Turn(Left);
+                    dir = dir.Turn(TURNLEFT);
                     infected.Add(curr);
                     infections++;
                 }
@@ -183,14 +173,14 @@
         {
             switch(dir)
             {
-                case S:
-                    return curr.Add(MoveSouth);
-                case N:
-                    return curr.Add(MoveNorth);
-                case E:
-                    return curr.Add(MoveEast);
-                case W:
-                    return curr.Add(MoveWest);
+                case UP:
+                    return new Coordinate(curr.X, curr.Y - 1);
+                case DOWN:
+                    return new Coordinate(curr.X, curr.Y + 1);
+                case RIGHT:
+                    return new Coordinate(curr.X + 1, curr.Y);
+                case LEFT:
+                    return new Coordinate(curr.X - 1, curr.Y);
                 default:
                     throw new Exception("Unexpected direction value " + dir);
             }
