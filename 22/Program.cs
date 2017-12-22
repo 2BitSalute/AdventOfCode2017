@@ -135,18 +135,18 @@
                 {
                     dir = dir.Turn(Right);
                     infected.Remove(curr);
-                    flagged.Add(new Coordinate(x: curr.X, y: curr.Y));
+                    flagged.Add(curr);
                 }
                 else if (weakened.Contains(curr))
                 {
                     weakened.Remove(curr);
-                    infected.Add(new Coordinate(x: curr.X, y: curr.Y));
+                    infected.Add(curr);
                     infections++;
                 }
                 else // Clean
                 {
                     dir = dir.Turn(Left);
-                    weakened.Add(new Coordinate(x: curr.X, y: curr.Y));
+                    weakened.Add(curr);
                 }
 
                 curr = curr.Move(dir);
