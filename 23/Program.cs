@@ -16,7 +16,7 @@ namespace _23
             long d = 0;
             long e = 0;
             long f = 0;
-            long g = 0;
+
             long h = 0;
 
             b = 67;
@@ -33,50 +33,38 @@ namespace _23
             Console.WriteLine("b = {0}", b);
             Console.WriteLine("c = {0}", c);
 
+            while(b <= c)
+            {
+                for (int i = 2; i <= b / 2; i++)
+                {
+                    if (b % i == 0)
+                    {
+                        h++;
+                        break;
+                    }
+                }
+
+                b += 17;
+            }
+
+            Console.WriteLine("{0} non-primes", h);
+
             while (true)
             {
                 f = 1;
                 d = 2;
 
-                do
+                for (d = 2; d - b != 0; d++)
                 {
                     for (e = 2; e - b != 0; e++)
-{
-                    e = 2;
-
-                    do
-                    {}
+                    {
                         if (d * e - b == 0)
                         {
+                            // Not a prime
                             f = 0;
                         }
-
-                        // g = d;
-                        // g *= e;
-                        // mult++;
-
-                        // g -= b;
-
-                        // if (g == 0)
-                        // {
-                        //     f = 0;
-                        // }
-
-                        e++;
-                        g = e;
-                        g -= b;
-                    } while (g != 0);
-
-                    if (f != 0)
-                    {
-                        Console.WriteLine("e = {0}", e);
-                        Console.WriteLine("f = {0}", f);
                     }
-
-                    d++;
-                    g = d;
-                    g -= b;
-                } while (g != 0);
+                }
 
                 if (f == 0)
                 {
@@ -88,13 +76,7 @@ namespace _23
                     Console.WriteLine("f is not zero");
                 }
 
-                g = b;
-                // g -= c;
-
-                // c is always 123700
-                // Therefore, we exit when g is -123700
-                // And actually, we exit when B is -123700
-                if (g - c == 0) // (g == 0)
+                if (b - c == 0)
                 {
                     Console.WriteLine("Finally");
                     break;
