@@ -220,7 +220,5 @@ namespace _17
 
             Console.WriteLine(lastRecovered);
         }
-
-
     }
 }
